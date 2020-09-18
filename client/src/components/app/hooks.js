@@ -1,20 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { toJSON } from 'helpers/response';
-
-import { format } from './helpers';
+import { getTimestamp } from './helpers';
 
 export const useApp = () => {
-  const [timestamp, setTimestamp] = useState(0);
+  const [timestamp, setTimestamp] = useState();
 
   useEffect(() => {
     const interval = window.setInterval(
-      () =>
-        window
-          .fetch('/timestamp')
-          .then(toJSON)
-          .then(format)
-          .then(setTimestamp),
+      () => getTimestamp().then(setTimestamp),
       2500
     );
 

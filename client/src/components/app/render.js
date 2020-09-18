@@ -2,8 +2,8 @@ import React from 'react';
 
 import { useApp } from './hooks';
 
-export default () => {
+export default ({ className }) => {
   const { timestamp } = useApp();
 
-  return <h1>Timestamp: {timestamp}</h1>;
+  return !!timestamp && <h1 className={className}>Timestamp: {timestamp}</h1>;
 };
