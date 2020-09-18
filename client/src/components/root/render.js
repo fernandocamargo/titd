@@ -7,11 +7,11 @@ import { App, Debugger, Style } from 'components';
 
 export default () => (
   <Debugger>
-    <Router>
-      <Theming theme={theme}>
-        <Style />
+    <Theming theme={theme}>
+      <Style />
+      <Router>
         <App />
-      </Theming>
-    </Router>
+      </Router>
+    </Theming>
   </Debugger>
 );
