@@ -1,9 +1,8 @@
-import cloneDeep from 'lodash/cloneDeep';
-import merge from 'lodash/merge';
+import extend from 'lodash/merge';
 
-import theme from '../default';
+import { getDefaultTheme } from 'helpers/theming';
 
-export default merge(cloneDeep(theme), {
+export default extend(getDefaultTheme(), {
   background: '#282c34',
   color: '#fff',
 });
