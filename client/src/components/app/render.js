@@ -1,22 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-export const toJSON = response => response.json();
+import { useApp } from './hooks';
 
 export default () => {
-  const [timestamp, setTimestamp] = useState(0);
-
-  useEffect(() => {
-    const interval = window.setInterval(
-      () =>
-        window
-          .fetch('/timestamp')
-          .then(toJSON)
-          .then(({ value }) => setTimestamp(value)),
-      2500
-    );
-
-    return () => window.clearInterval(interval);
-  }, []);
+  const { timestamp } = useApp();
 
   return <h1>Timestamp: {timestamp}</h1>;
 };
