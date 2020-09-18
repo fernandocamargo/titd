@@ -1,0 +1,15 @@
+{
+  "name": "titd",
+  "version": "0.1.0",
+  "private": false,
+  "main": "index.js",
+  "repository": "https://github.com/fernandocamargo/titd.git",
+  "author": "Fernando Camargo Del Buono <camargodelbuono@gmail.com>",
+  "scripts": {
+    "postinstall": "concurrently \"cd ./server && npm install\" \"cd ./client && npm install\"",
+    "start": "concurrently \"cd ./server && npm run start\" \"cd ./client && npm run start\""
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
