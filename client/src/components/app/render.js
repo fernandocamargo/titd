@@ -5,5 +5,5 @@ import { useApp } from './hooks';
 export default ({ className }) => {
   const { timestamp } = useApp();
 
-  return !!timestamp && <h1 className={className}>Timestamp: {timestamp}</h1>;
+  return <h1 className={className}>Timestamp: {timestamp}</h1>;
 };

@@ -1,5 +1,9 @@
+import property from 'lodash/property';
 import styled from 'styled-components';
 
 export default component => styled(component)`
-  border: dotted 5px red;
+  background-color: ${property('theme.background')};
+  color: ${property('theme.color')};
+  padding: 1rem;
+  text-transform: lowercase;
 `;

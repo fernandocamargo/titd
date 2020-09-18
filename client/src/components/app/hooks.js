@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { getTimestamp } from './helpers';
 
 export const useApp = () => {
-  const [timestamp, setTimestamp] = useState();
+  const [timestamp, setTimestamp] = useState('Loading...');
 
   useEffect(() => {
     const interval = window.setInterval(
       () => getTimestamp().then(setTimestamp),
-      2500
+      1000
     );
 
     return () => window.clearInterval(interval);
