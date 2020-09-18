@@ -1,14 +1,9 @@
-import React, { StrictMode } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 
 import { Root } from 'components';
 
 export const initialize = () =>
-  render(
-    <StrictMode>
-      <Root />
-    </StrictMode>,
-    document.getElementById('root')
-  );
+  render(<Root />, document.getElementById('root'));
 
 export default document.fonts.ready.then(initialize);
