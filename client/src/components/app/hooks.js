@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { getTimestamp } from './helpers';
 
-export const useApp = () => {
+export default () => {
   const [timestamp, setTimestamp] = useState('Loading...');
 
   useEffect(() => {
