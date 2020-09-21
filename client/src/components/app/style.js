@@ -5,5 +5,4 @@ export default component => styled(component)`
   background-color: ${property('theme.background')};
   color: ${property('theme.color')};
   padding: 1rem;
-  text-transform: lowercase;
 `;

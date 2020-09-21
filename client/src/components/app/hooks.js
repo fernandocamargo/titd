@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
-import { getTimestamp } from './helpers';
+import { useAuthentication } from 'hooks';
 
 export default () => {
-  const [timestamp, setTimestamp] = useState('Loading...');
+  const authentication = useAuthentication();
+  const logout = useCallback(
+    event => {
+      event.preventDefault();
 
-  useEffect(() => {
-    const interval = window.setInterval(
-      () => getTimestamp().then(setTimestamp),
-      1000
-    );
+      return authentication.logout();
+    },
+    [authentication]
+  );
 
-    return () => window.clearInterval(interval);
-  }, []);
-
-  return { timestamp };
+  return { logout };
 };
