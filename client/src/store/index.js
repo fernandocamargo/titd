@@ -9,7 +9,7 @@ import * as reducers from 'actions/reducers';
 export const compose = composeWithDevTools({ name });
 
 export const persistency = persistReducer(
-  { whitelist: ['profile', 'settings'], key: name, storage },
+  { whitelist: ['authentication', 'settings'], key: name, storage },
   combineReducers(reducers)
 );
 
