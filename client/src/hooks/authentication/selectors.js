@@ -3,9 +3,17 @@ import { createSelector } from 'reselect';
 
 export const getAuthentication = ({ authentication }) => authentication || {};
 
-export const isLogged = createSelector(
+export const getToken = createSelector(
   getAuthentication,
-  ({ access_token: token = '' }) => isString(token) && !!token.trim()
+  ({ access_token: token }) => token || ''
 );
 
-export default createSelector(isLogged, logged => ({ logged }));
+export const isLogged = createSelector(
+  getToken,
+  token => isString(token) && !!token.trim()
+);
+
+export default createSelector(getToken, isLogged, (token, logged) => ({
+  token,
+  logged,
+}));
