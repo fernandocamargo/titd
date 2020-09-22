@@ -29,6 +29,11 @@ export default ({ className }) => {
           <h3>Navigate through:</h3>
           <ul>
             <li>
+              <Link to="/repositories" title="Click to list your repositories">
+                Repositories
+              </Link>
+            </li>
+            <li>
               <Link to="/logout" title="Click to logout" onClick={logout}>
                 Logout
               </Link>

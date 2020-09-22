@@ -1,17 +1,22 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
-import { useAuthentication } from 'hooks';
+import { useAuthentication, useProfile } from 'hooks';
 
 export default () => {
-  const authentication = useAuthentication();
+  const { logout: clear, logged } = useAuthentication();
+  const { fetch } = useProfile();
   const logout = useCallback(
     event => {
       event.preventDefault();
 
-      return authentication.logout();
+      return clear();
     },
-    [authentication]
+    [clear]
   );
+
+  useEffect(() => {
+    logged && fetch();
+  }, [logged, fetch]);
 
   return { logout };
 };
