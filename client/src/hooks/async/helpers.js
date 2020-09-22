@@ -1,7 +1,8 @@
-import { PENDING } from './constants';
+import noop from 'lodash/noop';
 
 export class Validity {
   constructor() {
+    this.chain = new Promise(noop);
     this.stale = false;
   }
 
@@ -9,9 +10,16 @@ export class Validity {
     this.stale = true;
   };
 
-  succeed = (...params) => (!this.stale ? Promise.resolve(...params) : PENDING);
+  promise = (method, ...params) => {
+    const { chain, stale } = this;
+    const { [method]: apply } = Promise;
 
-  fail = (...params) => (!this.stale ? Promise.reject(...params) : PENDING);
+    return !stale ? apply.call(Promise, ...params) : chain;
+  };
+
+  succeed = (...params) => this.promise('resolve', ...params);
+
+  fail = (...params) => this.promise('reject', ...params);
 
   check = promise => {
     const { succeed, fail } = this;

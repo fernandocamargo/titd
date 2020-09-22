@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { unstable_batchedUpdates as batch } from 'react-dom';
 
-import { attempt, fail, getInitialState, succeed } from './reducers';
-
 import { Validity } from './helpers';
+import { attempt, fail, getInitialState, succeed } from './reducers';
 
 export default ({ promise }) => {
   const { current: controller } = useRef(new AbortController());
