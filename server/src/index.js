@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { config } from 'dotenv';
 import { stringify } from 'querystring';
 import { post } from 'axios';
@@ -7,7 +8,11 @@ export const {
   parsed: { PORT, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET },
 } = config();
 
-export const ping = (_, response) =>
+export const {
+  parsed: { PORT: CLIENT_PORT },
+} = config({ path: resolve('../client/.env') });
+
+export const request = (_, response) =>
   response.redirect(
     `https://github.com/login/oauth/authorize?${stringify({
       client_id: GITHUB_CLIENT_ID,
@@ -15,7 +20,7 @@ export const ping = (_, response) =>
     })}`
   );
 
-export const pong = ({ query: { code } }, response) =>
+export const receive = ({ query: { code } }, response) =>
   post(
     'https://github.com/login/oauth/access_token',
     {
@@ -25,10 +30,12 @@ export const pong = ({ query: { code } }, response) =>
     },
     { headers: { accept: 'application/json' } }
   ).then(({ data }) =>
-    response.redirect(`http://localhost:3000/login?${stringify(data)}`)
+    response.redirect(
+      `http://localhost:${CLIENT_PORT}/login?${stringify(data)}`
+    )
   );
 
 export default express()
-  .get('/github/ping', ping)
-  .get('/github/pong', pong)
+  .get('/github/request', request)
+  .get('/github/receive', receive)
   .listen(PORT);
