@@ -13,7 +13,7 @@ export default () => {
     () => !isEmpty(credentials) && login({ credentials }),
     [credentials, login]
   );
-  const authorize = useMemo(() => 'http://localhost:1337/github/ping', []);
+  const authorize = useMemo(() => 'http://localhost:1337/github/request', []);
 
   useEffect(() => {
     check();
