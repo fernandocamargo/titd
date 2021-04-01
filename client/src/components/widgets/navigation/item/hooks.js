@@ -1,10 +1,8 @@
-import flow from 'lodash/flow';
+import identity from 'lodash/identity';
 import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import { useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-
-import { prevent } from 'helpers/event';
 
 export default ({ url, active, ...props }) => {
   const { pathname: location } = useLocation();
@@ -23,7 +21,13 @@ export default ({ url, active, ...props }) => {
     url,
   ]);
   const onClick = useCallback(
-    flow([prevent, interactive && url].filter(Boolean)),
+    event => {
+      const handle = interactive ? url : identity;
+
+      event.preventDefault();
+
+      return handle(event);
+    },
     [interactive, url]
   );
 

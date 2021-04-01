@@ -1,6 +1,7 @@
+const { createMacro } = require('babel-plugin-macros');
 const { dirname, relative, resolve } = require('path');
 const { cwd } = require('process');
-const { createMacro } = require('babel-plugin-macros');
+
 const {
   compilerOptions: { baseUrl },
 } = require('../../../jsconfig.json');
@@ -26,7 +27,7 @@ module.exports = createMacro(
       },
       filename,
     },
-    references: { defineMessages },
+    references: { defineMessages = [] },
   }) => {
     defineMessages.forEach(({ parentPath }) => {
       const [{ node: messages }] = parentPath.get('arguments');

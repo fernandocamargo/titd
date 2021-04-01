@@ -1,34 +1,29 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useI18n } from 'hooks';
 import { Navigation } from 'components/widgets';
 
 import use from './hooks';
+import messages from './messages';
 
 export default ({ className }) => {
+  const i18n = useI18n(messages);
   const { logged, logout } = use();
   const navigation = useMemo(
     () => [
-      {
-        label: 'About us',
-        url: '/about-us',
-        title: 'Click to know more about us',
-      },
-      {
-        label: 'Repositories',
-        url: '/repositories',
-        title: 'Click to list your repositories',
-      },
-      { label: 'Logout', title: 'Click to logout', url: logout },
+      { url: '/about-us', ...i18n.navigation['about-us'] },
+      { url: '/repositories', ...i18n.navigation.repositories },
+      { url: logout, ...i18n.navigation.logout },
     ],
-    [logout]
+    [i18n, logout]
   );
 
   return (
     <header className={className}>
       <h2>
-        <Link to="/" title="Click to go home">
-          Today is the day (this is the documentation)
+        <Link to="/" title={i18n.title.title}>
+          {i18n.title.label}
         </Link>
       </h2>
       {logged && <Navigation items={navigation} />}

@@ -7,16 +7,17 @@
     "start": "nodemon --exec babel-node ./src/index.js"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/node": "^7.10.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
-    "@babel/preset-env": "^7.11.5",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "nodemon": "^2.0.4"
+    "@babel/core": "^7.13.13",
+    "@babel/node": "^7.13.13",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
+    "@babel/preset-env": "^7.13.12",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "nodemon": "^2.0.7"
   }
 }

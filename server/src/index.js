@@ -12,13 +12,7 @@ export const {
   parsed: { PORT: CLIENT_PORT },
 } = config({ path: resolve('../client/.env') });
 
-export const request = (_, response) =>
-  response.redirect(
-    `https://github.com/login/oauth/authorize?${stringify({
-      client_id: GITHUB_CLIENT_ID,
-      scope: ['repo'],
-    })}`
-  );
+export const check = (_, response) => response.json({ all: 'good' });
 
 export const receive = ({ query: { code } }, response) =>
   post(
@@ -35,7 +29,16 @@ export const receive = ({ query: { code } }, response) =>
     )
   );
 
+export const request = (_, response) =>
+  response.redirect(
+    `https://github.com/login/oauth/authorize?${stringify({
+      client_id: GITHUB_CLIENT_ID,
+      scope: ['repo'],
+    })}`
+  );
+
 export default express()
-  .get('/github/request', request)
+  .get('/check', check)
   .get('/github/receive', receive)
+  .get('/github/request', request)
   .listen(PORT);

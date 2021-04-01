@@ -1,0 +1,13 @@
+{
+  "components/app/footer/copyright": "Todos os direitos reservados",
+  "components/app/header/navigation/about-us/label": "About us",
+  "components/app/header/navigation/about-us/title": "Click to know more about us",
+  "components/app/header/navigation/repositories/label": "Repositories",
+  "components/app/header/navigation/repositories/title": "Click to list your repositories",
+  "components/app/header/navigation/logout/label": "Logout",
+  "components/app/header/navigation/logout/title": "Click to logout",
+  "components/app/header/title/label": "Today is the day (this is the documentation)",
+  "components/app/header/title/title": "Click to go home",
+  "components/pages/home/authentication/check": "Checking status: your token is {token}",
+  "components/pages/home/title": "Seja bem-vindo(a)!"
+}
