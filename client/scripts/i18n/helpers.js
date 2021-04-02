@@ -1,15 +1,13 @@
 import { parse, traverse } from '@babel/core';
-import { readFileSync, writeFile } from 'fs';
+import { readFileSync as read, writeFileSync as write } from 'fs';
 import glob from 'glob';
-// import { dirname, relative, resolve } from 'path';
-// import { cwd } from 'process';
 
-// import * as ast from 'helpers/ast';
-
-// import { compilerOptions } from '../../jsconfig.json';
+import * as ast from 'helpers/ast';
+import * as json from 'helpers/json';
+import { dirname } from 'helpers/filesystem';
 
 export const load = pattern => {
-  const format = path => ({ content: read(path), path });
+  const format = path => ({ content: read(path).toString(), path });
   const promise = (resolve, reject) =>
     glob(pattern, (error, files) =>
       error ? reject(error) : resolve(Promise.all(files.map(format)))
@@ -18,63 +16,62 @@ export const load = pattern => {
   return new Promise(promise);
 };
 
-export const read = path => readFileSync(path).toString();
-
 export const extract = ([definitions, translations]) => {
-  const defaults = definitions.reduce(
-    (messages, { content, path }) => console.log({ path }) || messages,
-    {}
-  );
+  const defaults = definitions.reduce(register, []).sort(organize);
+  const process = ({ content, path }) => {
+    const current = json.parse(content);
+    const reconcile = (stack, { key, value }) => {
+      const { [key]: next = value } = current;
 
-  return translations.forEach();
+      return Object.assign(stack, { [key]: next });
+    };
+    const translation = defaults.reduce(reconcile, {});
+    const file = write(path, json.stringify(translation, null, 2));
+
+    return file;
+  };
+
+  return translations.map(process);
 };
 
-/*
-export const load = definitions =>
-  definitions
-    .map(({ content, path }) => {
-      const messages = new Map();
+export const organize = ({ key: previous }, { key: next }) => {
+  const normalized = {
+    next: next.toUpperCase(),
+    previous: previous.toUpperCase(),
+  };
+  const { [true]: ratio = 0 } = {
+    [normalized.previous < normalized.next]: -1,
+    [normalized.previous > normalized.next]: 1,
+  };
 
-      traverse(parse(content), {
-        CallExpression({
-          node: {
-            arguments: [settings],
-          },
-        }) {
-          return ast
-            .traverse(settings)
-            .with(message =>
-              messages.set(
-                [
-                  relative(
-                    resolve(cwd(), compilerOptions.baseUrl),
-                    dirname(path)
-                  ),
-                ]
-                  .concat(message.path)
-                  .join('/'),
-                message.value
-              )
-            );
+  return ratio;
+};
+
+export const register = (dictionary, { content, path }) => {
+  const root = dirname(path);
+  const translate = () => {
+    const code = parse(content);
+    const coordinates = {
+      CallExpression({
+        node: {
+          arguments: [settings],
         },
-      });
+      }) {
+        const merge = ({ value, ...message }) => {
+          const key = [root].concat(message.path).join('/');
 
-      return messages;
-    })
-    .reduce((previous, next) => new Map([...previous, ...next]));
+          return messages.push({ key, value });
+        };
 
+        return ast.traverse(settings).with(merge);
+      },
+    };
+    const messages = [];
 
-export const write = (path, content) =>
-  new Promise((resolve, reject) =>
-    writeFile(path, content, error => (error ? reject(error) : resolve(true)))
-  );
+    traverse(code, coordinates);
 
-export const save = translations => {
-  const format = ({ content, path }) => ({
-    content: content ? JSON.parse(content) : {},
-    path,
-  });
+    return messages;
+  };
 
-  return translations.map(format);
+  return dictionary.concat(translate());
 };
-*/
