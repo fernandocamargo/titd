@@ -4,7 +4,7 @@ const { cwd } = require('process');
 
 const {
   compilerOptions: { baseUrl },
-} = require('../../../jsconfig.json');
+} = require('@jsconfig');
 
 module.exports = createMacro(
   ({
