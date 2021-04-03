@@ -3,7 +3,7 @@ const { cwd } = require('process');
 
 const {
   compilerOptions: { baseUrl },
-} = require('jsconfig');
+} = require('@jsconfig');
 
 module.exports = filename =>
   relative(resolve(cwd(), baseUrl), dirname(filename));

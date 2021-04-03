@@ -1,53 +1,15 @@
 const { createMacro } = require('babel-plugin-macros');
-const { dirname, relative, resolve } = require('path');
-const { cwd } = require('process');
 
-const {
-  compilerOptions: { baseUrl },
-} = require('@jsconfig');
+const modules = require('./modules');
 
-module.exports = createMacro(
-  ({
-    babel: {
-      types: {
-        callExpression,
-        identifier,
-        importDeclaration,
-        importDefaultSpecifier,
-        objectExpression,
-        objectProperty,
-        stringLiteral,
-      },
-    },
-    state: {
-      file: {
-        path: {
-          node: { body },
-        },
-      },
-      filename,
-    },
-    references: { defineMessages = [] },
-  }) => {
-    defineMessages.forEach(({ parentPath }) => {
-      const [{ node: messages }] = parentPath.get('arguments');
-      const namespace = relative(resolve(cwd(), baseUrl), dirname(filename));
+module.exports = createMacro(context => {
+  const connect = ([name, apply]) => {
+    const {
+      references: { [name]: references },
+    } = context;
 
-      body.unshift(
-        importDeclaration(
-          [importDefaultSpecifier(identifier('defineMessages'))],
-          stringLiteral('helpers/i18n/define-messages')
-        )
-      );
+    return references.forEach(apply.bind(context));
+  };
 
-      return parentPath.replaceWith(
-        callExpression(identifier('defineMessages'), [
-          objectExpression([
-            objectProperty(identifier('namespace'), stringLiteral(namespace)),
-            objectProperty(identifier('messages'), messages),
-          ]),
-        ])
-      );
-    });
-  }
-);
+  return Object.entries(modules).forEach(connect);
+});
