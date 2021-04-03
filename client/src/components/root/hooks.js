@@ -1,3 +1,3 @@
 import store, { persistor } from 'store';
 
-export default () => ({ store, persistor });
+export const useRoot = () => ({ store, persistor });

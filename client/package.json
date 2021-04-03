@@ -5,7 +5,7 @@
   "main": "index.js",
   "proxy": "http://localhost:1337",
   "scripts": {
-    "prestart.dev": "nodemon --ignore 'src/i18n/*.json' --exec babel-node ./scripts/i18n/index.js",
+    "prestart.dev": "nodemon --ignore 'src/i18n/translations/*.json' --exec babel-node ./scripts/i18n/index.js",
     "prestart": "babel-node ./scripts/i18n/index.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
